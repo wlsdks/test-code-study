@@ -16,6 +16,7 @@ public enum ProductSellingStatus {
 
     private final String text;
 
+    // 특정 데이터의 리스트만 내보낸다.
     public static List<ProductSellingStatus> forDisplay() {
         return List.of(SELLING, HOLD);
     }

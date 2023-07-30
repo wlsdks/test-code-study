@@ -2,6 +2,7 @@ package sample.cafekiosk.spring.domain.product;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,5 +27,13 @@ public class Product extends BaseEntity {
 
     private int price; // 가격
 
-
+    // id를 제외한 필드로 생성자를 만든다.
+    @Builder
+    private Product(String productNumber, ProductType type, ProductSellingStatus sellingStatus, String name, int price) {
+        this.productNumber = productNumber;
+        this.type = type;
+        this.sellingStatus = sellingStatus;
+        this.name = name;
+        this.price = price;
+    }
 }
