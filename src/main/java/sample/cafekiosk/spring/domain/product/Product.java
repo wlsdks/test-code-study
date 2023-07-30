@@ -20,7 +20,7 @@ public class Product extends BaseEntity {
     private ProductType type; // 상품타입
 
     @Enumerated(EnumType.STRING)
-    private ProductSellingType sellingType; // 판매타입
+    private ProductSellingStatus sellingStatus; // 판매타입
 
     private String name; // 상품명
 
