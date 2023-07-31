@@ -11,6 +11,8 @@ import sample.cafekiosk.spring.domain.product.ProductRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -21,12 +23,23 @@ public class OrderService {
 
     public OrderResponse createOrder(OrderCreateRequest request, LocalDateTime registeredDateTime) {
         List<String> productNumbers = request.getProductNumbers();
-        // Product
-        List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
+        List<Product> products = findProductsBy(productNumbers);
 
         Order order = Order.create(products, registeredDateTime);
         Order savedOrder = orderRepository.save(order);
         return OrderResponse.of(savedOrder);
+    }
+
+    private List<Product> findProductsBy(List<String> productNumbers) {
+        List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
+        // product를 빨리 찾을 수 있는 Map을 만들어줬다.
+        Map<String, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getProductNumber, p -> p));
+
+        // productNumbers를 순회하면서 get으로 Product객체를 가져와서 리스트로 만들었다.
+        return productNumbers.stream()
+                .map(productMap::get)
+                .collect(Collectors.toList());
     }
 
 }
