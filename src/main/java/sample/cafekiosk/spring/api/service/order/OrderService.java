@@ -27,7 +27,11 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final StockRepository stockRepository;
-    
+
+    /**
+     * 재고 감소 - 동시성 문제에 대한 고민을 해야한다.(동시에 차감 요청이 온다면?)
+     * optimistic lock / pessimistic lock / ... (lock 개념을 사용해서 데이터를 잠구고 순차적으로 처리한다.)
+     */
     public OrderResponse createOrder(OrderCreateRequest request, LocalDateTime registeredDateTime) {
         List<String> productNumbers = request.getProductNumbers();
         List<Product> products = findProductsBy(productNumbers);
