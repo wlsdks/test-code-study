@@ -1,8 +1,6 @@
 package sample.cafekiosk.spring.api.service.product;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,6 +28,24 @@ class ProductServiceTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @BeforeAll
+    static void beforeAll() {
+        // before class
+    }
+
+    /**
+     * 이렇게 setup해주는 방식인 모든 테슽트가 공유객체를 사용하게 만든다.
+     * 즉, 이 코드안의 내용을 수정하면 모든 테스트의 내용이 변경될수있으니 사용을 지양한다.
+     * 이 방식을 쓰면 given절을 봤을때 뭔지 바로 알수가없어서 문서로써의 역할을 하기가 어려워진다. 이 정보를 보러 올라와야하기 때문이다.
+     */
+    @BeforeEach
+    void setup() {
+        // before method 겹치는 given 데이터를 여기에 만들어준다.
+
+        // 각 테스트 입장에서 봤을때 : 아예 몰라도 테스트 내용을 이해하는데 문제가 없는가?
+        // 수정해도 모든 테스트에 영향을 주지 않는가?
+    }
 
     @AfterEach
     void tearDown() {
