@@ -35,8 +35,6 @@ class OrderStatisticsServiceTest extends IntegrationTestSupport {
     @Autowired private ProductRepository productRepository;
     @Autowired private MailSendHistoryRepository mailSendHistoryRepository;
 
-    // MockBean처리 -> 통합테스트에서 적용
-    @MockBean private MailSendClient mailSendClient;
 
     @AfterEach
     void tearDown() {
