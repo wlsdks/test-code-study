@@ -54,7 +54,7 @@ class ProductTypeTest {
         boolean result3 = ProductType.containsStockType(givenType3);
 
         //then
-        assertThat(result1).isTrue();
+        assertThat(result1).isFalse();
         assertThat(result2).isTrue();
         assertThat(result3).isTrue();
     }
@@ -68,7 +68,7 @@ class ProductTypeTest {
         boolean result = ProductType.containsStockType(productType);
 
         //then
-        assertThat(result).isTrue();
+        assertThat(result).isEqualTo(expected);
     }
 
     @DisplayName("[MethodSource] 상품 타입이 재고 관련 타입인지를 체크한다.")
