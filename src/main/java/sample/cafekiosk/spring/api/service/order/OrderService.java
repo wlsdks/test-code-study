@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
+import sample.cafekiosk.spring.api.service.order.request.OrderCreateServiceRequest;
 import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
 import sample.cafekiosk.spring.domain.order.Order;
 import sample.cafekiosk.spring.domain.order.OrderRepository;
@@ -31,8 +32,9 @@ public class OrderService {
     /**
      * 재고 감소 - 동시성 문제에 대한 고민을 해야한다.(동시에 차감 요청이 온다면?)
      * optimistic lock / pessimistic lock / ... (lock 개념을 사용해서 데이터를 잠구고 순차적으로 처리한다.)
+     * service에서는 service전용 dto만 사용한다. -> controller와 연관된게없다.
      */
-    public OrderResponse createOrder(OrderCreateRequest request, LocalDateTime registeredDateTime) {
+    public OrderResponse createOrder(OrderCreateServiceRequest request, LocalDateTime registeredDateTime) {
         List<String> productNumbers = request.getProductNumbers();
         List<Product> products = findProductsBy(productNumbers);
 
