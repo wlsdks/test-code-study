@@ -3,10 +3,7 @@ package sample.cafekiosk.spring.api.service.mail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sample.cafekiosk.spring.client.mail.MailSendClient;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
@@ -16,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MailServiceTest {
@@ -31,24 +29,16 @@ class MailServiceTest {
     @DisplayName("메일 전송 테스트")
     @Test
     void sendMail() {
-        //given
-        // Mockito.mock()을 사용해서 mock()안에 파라미터로 객체의 타입을 주면 그 타입의 Mock객체를 만들어준다.
-//        MailSendClient mailSendClient = Mockito.mock(MailSendClient.class);
-//        MailSendHistoryRepository mailSendHistoryRepository = Mockito.mock(MailSendHistoryRepository.class);
-        // 2개의 만든 mock을 주입해서 mailService를 생성
-//        MailService mailService = new MailService(mailSendClient, mailSendHistoryRepository);
+//        Mockito.when(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
+//                .thenReturn(true);
 
-        // stubbing -> mock객체를 만든다. any(String.class) -> 어떤 String타입이든 알아서넣어라
-//        Mockito.when(mailSendClient.sendEmail(
-//                any(String.class),
-//                any(String.class),
-//                any(String.class),
-//                any(String.class)
-//        )).thenReturn(true);
+        // 위,아래의 방법이 이상해서 알아보기 쉽게 DBBMockito를 만들었음 (Stubbing은 준비단계라 given절이니 위 아래보다 이게 가장 좋은것같다.)
+        BDDMockito.given(mailSendClient.sendEmail(anyString(), anyString(), anyString(), anyString()))
+                .willReturn(true);
 
-        doReturn(true)
-                .when(mailSendClient)
-                .sendEmail(anyString(), anyString(), anyString(), anyString());
+//        doReturn(true)
+//                .when(mailSendClient)
+//                .sendEmail(anyString(), anyString(), anyString(), anyString());
 
         //when
         boolean result = mailService.sendMail("", "", "", "");
