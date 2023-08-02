@@ -30,24 +30,16 @@ import static sample.cafekiosk.spring.domain.product.ProductType.*;
 @SpringBootTest
 class OrderServiceTest {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
-    @Autowired
-    private OrderProductRepository orderProductRepository;
-
-    @Autowired
-    private StockRepository stockRepository;
-
-    @Autowired
-    private OrderService orderService;
+    @Autowired private ProductRepository productRepository;
+    @Autowired private OrderRepository orderRepository;
+    @Autowired private OrderProductRepository orderProductRepository;
+    @Autowired private StockRepository stockRepository;
+    @Autowired private OrderService orderService;
 
     // 테스트가 끝날때마다 어질러놓은것을 치우도록 한다.
     @AfterEach
     void tearDown() {
+        // 매핑테이블의 키를 먼저 지워줘야한다.
         orderProductRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch();
         orderRepository.deleteAllInBatch();
