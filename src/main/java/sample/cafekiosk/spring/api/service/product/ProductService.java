@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
+import sample.cafekiosk.spring.api.service.product.request.ProductServiceCreateRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
@@ -29,7 +30,7 @@ public class ProductService {
     /**
      * 상품 추가 - 동시성 문제
      */
-    public ProductResponse createProduct(ProductCreateRequest request) {
+    public ProductResponse createProduct(ProductServiceCreateRequest request) {
         // DB에서 마지막 저장된 Product의 상품번호를 읽어와서 +1한다.  009 -> 010
         String nextProductNumber = createNextProductNumber();
 
