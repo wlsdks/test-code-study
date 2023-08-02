@@ -3,7 +3,6 @@ package sample.cafekiosk.spring.api.service.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.cafekiosk.spring.api.service.product.request.ProductServiceCreateRequest;
 import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.Product;
@@ -26,34 +25,18 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductNumberFactory productNumberFactory;
 
-    /**
-     * 상품 추가 - 동시성 문제
-     */
+    /** 상품 추가 - 동시성 문제 해결이 필요함 */
+    @Transactional
     public ProductResponse createProduct(ProductServiceCreateRequest request) {
         // DB에서 마지막 저장된 Product의 상품번호를 읽어와서 +1한다.  009 -> 010
-        String nextProductNumber = createNextProductNumber();
+        String nextProductNumber = productNumberFactory.createNextProductNumber();
 
         Product product = request.toEntity(nextProductNumber);
         Product savedProduct = productRepository.save(product);
 
         return ProductResponse.of(savedProduct);
-    }
-
-    /**
-     * 저장할 다음 상품번호 생성
-     */
-    private String createNextProductNumber() {
-        String latestProductNumber = productRepository.findLatestProductNumber();
-        if (latestProductNumber == null) {
-            return "001";
-        }
-
-        int latestProductNumberInt = Integer.parseInt(latestProductNumber);
-        int nextProductNumberInt = latestProductNumberInt + 1;
-
-        // 9 -> 009, 10 -> 010
-        return String.format("%03d", nextProductNumberInt);
     }
 
     public List<ProductResponse> getSellingProducts() {
@@ -63,6 +46,5 @@ public class ProductService {
                 .map(ProductResponse::of)
                 .collect(Collectors.toList());
     }
-
 
 }
